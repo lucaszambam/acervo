@@ -1,7 +1,7 @@
 <template>
 	<h1>Acervo</h1>
-	<TextArea />
-	<InputArea />
+	<TextArea :title-guess="this.titleGuess" :word-guess="this.wordGuess"/>
+	<InputArea @word-guess="setWordGuess" @title-guess="setTitleGuess"/>
 </template>
 
 <script>
@@ -13,6 +13,21 @@ export default {
 	components: {
 		TextArea,
 		InputArea
+	},
+	data() {
+		return {
+			titleGuess: '',
+			wordGuess: ''
+		}
+	},
+	methods: {
+		setWordGuess(wordGuess) {
+			this.wordGuess = wordGuess;
+		},
+
+		setTitleGuess(titleGuess) {
+			this.titleGuess = titleGuess;
+		}
 	}
 }
 </script>
