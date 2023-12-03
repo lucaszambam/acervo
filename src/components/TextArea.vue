@@ -59,7 +59,7 @@ export default {
         },
 
         showHiddenWord(word) {
-            const foundWords = document.querySelectorAll(`.content-container .word-content.hidden[data-hidden-word="${this.encryptWord(word)}"]`);
+            const foundWords = document.querySelectorAll('.left-area .text-area .content-container .word-content.hidden[data-hidden-word="ZWNvc3Npc3RlbWFz"]');
             this.$emit('guessCallback', {
                 word: word,
                 occurrences: foundWords.length
@@ -119,6 +119,7 @@ $size-content: 16px;
     flex-direction: column;
     justify-content: center;
     gap: 10px;
+    padding: 20px;
     .title-container {
         font-size: $size-title;
         height: $size-title;
