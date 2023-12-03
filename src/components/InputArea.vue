@@ -51,7 +51,6 @@ export default {
 
     .input-container {
         display: flex;
-        gap: 0.5rem;
         justify-content: center;
         align-items: center;
         &.input-title-container {
@@ -75,8 +74,6 @@ export default {
             font-weight: 700;
             font-family: monospace;
             font-size: 1rem;
-            -moz-text-align-last: center;
-            text-align-last: center;
         }
     }
 }
