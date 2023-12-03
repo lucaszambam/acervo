@@ -20,6 +20,7 @@ export default {
 <style lang="scss">
 body {
 	margin: 0;
+	background-color: #0d1117;
 }
 #app {
 	font-family: monospace, Helvetica, Arial, sans-serif;
