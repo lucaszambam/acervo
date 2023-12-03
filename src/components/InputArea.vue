@@ -40,14 +40,13 @@ export default {
 <style scoped lang="scss">
 .input-area {
 	background-color: #010409;
-    position: absolute;
-    bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 75px;
     width: -webkit-fill-available;
 	gap: 50px;
+    border-top: 2px solid #21262d;
 
     .input-container {
         display: flex;
@@ -61,6 +60,7 @@ export default {
             display: flex;
             background: none;
             border: 0;
+            cursor: pointer;
         }
 
         input {
