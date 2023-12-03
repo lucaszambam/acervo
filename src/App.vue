@@ -49,6 +49,24 @@ export default {
 </script>
 
 <style lang="scss">
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1); 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #282a35;
+  border-radius: 5px;
+}
+
+/* Hide scrollbar buttons (arrows) */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
 body {
 	margin: 0;
 	background-color: #0d1117;
@@ -69,6 +87,10 @@ body {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+
+		h1 {
+			color: #e6edf3;
+		}
 	}
 }
 </style>

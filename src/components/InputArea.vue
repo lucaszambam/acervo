@@ -53,7 +53,9 @@ export default {
         justify-content: center;
         align-items: center;
         &.input-title-container {
-            min-width: 290px;
+            min-width: 270px;
+            position: fixed;
+            left: 10px;
         }
 
         .submit-container {
