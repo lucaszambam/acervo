@@ -1,19 +1,26 @@
 <template>
+	<h1>Acervo</h1>
 	<TextArea />
+	<InputArea />
 </template>
 
 <script>
-import TextArea from './components/TextArea.vue'
+import TextArea from './components/TextArea.vue';
+import InputArea from './components/InputArea.vue';
 
 export default {
 	name: 'App',
 	components: {
-		TextArea
+		TextArea,
+		InputArea
 	}
 }
 </script>
 
 <style lang="scss">
+body {
+	margin: 0;
+}
 #app {
 	font-family: monospace, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
