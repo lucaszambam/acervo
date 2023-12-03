@@ -9,7 +9,7 @@
 
         <div class="content-container">
             <div class="word-container" v-for="word in this.article.words">
-                <span class="word-content" v-if="this.visibleWords.includes(word)">{{ word }}</span>
+                <span class="word-content" v-if="this.visibleWords.includes(word.toLowerCase())">{{ word }}</span>
                 <span class="word-content hidden" :data-hidden-word="encryptWord(word)" :style="{width: getWordWidth(word) + 'px'}" :data-word-length="word.length" @click="displayWordLength" v-else></span>
                 <span class="blank-space" :style="{width: getWordWidth(' ') + 'px'}"></span>
             </div>
@@ -22,32 +22,16 @@ export default {
 	name: 'TextArea',
 	props: {
         titleGuess: String,
-		articleGuess: String
+		wordGuess: String
 	},
-    data() {
-        return {
-            article: {
-                title: '',
-                words: {
-                    id: 0,
-                    content: ''
-                }
-            },
-            visibleWords: [
-                // artigos
-                'o', 'a', 'os', 'as', 'um', 'uma', 'uns', 'umas',
+    emits: ['guessCallback'],
+    watch: { 
+        titleGuess: function (guessInput) {
+            this.guessTitle(guessInput); 
+        },
 
-                // conectivos
-                'e', 'ou', 'mas', 'porque', 'como', 'quando', 'se', 
-                'além', 'apesar', 'até', 'depois', 'desde', 'quando',
-                'onde', 'pois', 'logo', 'enquanto', 'para', 'por', 
-                'caso', 'embora', 'ainda', 'assim', 'senão', 'porquanto',
-                'contudo', 'entretanto', 'porém', 'mesmo', 'talvez', 'também',
-                'todavia', 'logo', 'isto', 'isso', 'aquilo', 'eis', 'quer', 
-                'seja', 'ora', 'nem', 'portanto', 'quanto', 'tão', 
-                'tanto', 'bastante', 'quais', 'quer', 'certo', 'realmente',
-                'ainda', 'mesmo', 'bem', 'sempre', 'visto', 'uma'
-            ]
+        wordGuess: function (guessInput) {
+            this.guessWord(guessInput);
         }
     },
     methods: {
@@ -56,7 +40,7 @@ export default {
         },
 
         encryptWord(word) {
-            return btoa(word);
+            return btoa(word.toLowerCase());
         },
 
         getWordWidth(word, fontSize = 16, fontFamily = 'monospace') {
@@ -64,9 +48,47 @@ export default {
             context.font = `${fontSize}px ${fontFamily}`;
 
             return context.measureText(word).width;
+        },
+
+        guessWord(guess) {
+            this.showHiddenWord(guess);
+        },
+
+        guessTitle(guess) {
+            this.showHiddenWord(guess);
+        },
+
+        showHiddenWord(word) {
+            const foundWords = document.querySelectorAll(`.content-container .word-content.hidden[data-hidden-word="${this.encryptWord(word)}"]`);
+            this.$emit('guessCallback', {
+                word: word,
+                occurrences: foundWords.length
+            });
+            foundWords.forEach(function(wordNode) {
+                wordNode.classList.remove('hidden');
+                wordNode.removeAttribute('data-hidden-word');
+                wordNode.removeAttribute('data-word-length');
+                
+                wordNode.innerHTML = this.article.words.find((articleWord) => {
+                    if (articleWord.toLowerCase() === word.toLowerCase()) {
+                        return articleWord;
+                    }
+                });
+
+                wordNode.parentNode.replaceChild(wordNode.cloneNode(true), wordNode);
+            }, this);
         }
     },
-    created() {
+    data() {
+        return {
+            article: {
+                title: '',
+                words: []
+            },
+            visibleWords: []
+        }
+    },
+    beforeCreate() {
         import('@/assets/articles.json')
             .then((response) => {
                 const currentArticle = response.default[Math.floor(Math.random() * response.default.length)];
@@ -77,11 +99,18 @@ export default {
             .catch((error) => {
                 console.error('Error fetching articles:', error);
             });
+
+        import('@/assets/visible-words.json')
+            .then((response) => {
+                this.visibleWords = response.default;
+            })
+            .catch((error) => {
+                console.error('Error fetching visible words:', error);
+            });
     }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 $size-title: 22px;
 $size-content: 16px;
