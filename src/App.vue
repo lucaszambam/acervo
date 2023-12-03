@@ -1,23 +1,35 @@
 <template>
-	<h1>Acervo</h1>
-	<TextArea :title-guess="this.titleGuess" :word-guess="this.wordGuess"/>
-	<InputArea @word-guess="setWordGuess" @title-guess="setTitleGuess"/>
+	<div class="content-container">
+		<div class="left-area">
+			<div>
+				<h1>Acervo</h1>
+				<TextArea :title-guess="this.titleGuess" :word-guess="this.wordGuess" @guess-callback="setGuesses"/>
+			</div>
+			<InputArea @word-guess="setWordGuess" @title-guess="setTitleGuess"/>
+		</div>
+		<div class="right-area">
+			<GuessHistory :guesses="this.guesses"/>
+		</div>
+	</div>
 </template>
 
 <script>
 import TextArea from './components/TextArea.vue';
 import InputArea from './components/InputArea.vue';
+import GuessHistory from './components/GuessHistory.vue';
 
 export default {
 	name: 'App',
 	components: {
-		TextArea,
-		InputArea
-	},
+    TextArea,
+    InputArea,
+    GuessHistory
+},
 	data() {
 		return {
 			titleGuess: '',
-			wordGuess: ''
+			wordGuess: '',
+			guesses: []
 		}
 	},
 	methods: {
@@ -27,7 +39,11 @@ export default {
 
 		setTitleGuess(titleGuess) {
 			this.titleGuess = titleGuess;
-		}
+		},
+
+		setGuesses(guess) {
+			this.guesses.push(guess);
+		} 
 	}
 }
 </script>
@@ -36,13 +52,23 @@ export default {
 body {
 	margin: 0;
 	background-color: #0d1117;
+	height: 100vh;
 }
 #app {
 	font-family: monospace, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
-	margin-top: 60px;
+	height: 100%;
+}
+.content-container {
+	display: grid;
+    grid-template-columns: 82% 18%;
+	height: 100%;
+
+	.left-area {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
 }
 </style>
