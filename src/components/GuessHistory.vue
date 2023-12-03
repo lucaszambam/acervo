@@ -14,7 +14,7 @@
 export default {
 	name: 'GuessHistory',
 	props: {
-		guesses: []
+		guesses: Array
 	},
 	data() {
 		return {
@@ -33,7 +33,10 @@ export default {
 
 			return 'not-incident';
 		},
+
 		getHeaderContent() {
+			this.scrollDownContainer();
+
 			const guessesLength = this.guesses.length;
 			if (guessesLength === 0) {
 				return 'palpites';
@@ -42,6 +45,16 @@ export default {
 			} else {
 				return guessesLength + ' palpites';
 			}
+		},
+
+		scrollDownContainer() {
+			const guessesContainer = document.querySelector('.guesses');
+            if (guessesContainer) {
+                guessesContainer.scrollTo({
+                    top: guessesContainer.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
 		}
 	},
 	beforeCreate() {
@@ -75,6 +88,8 @@ $not-valid: #f7dc6f;
 		color: #e6edf3;
 	}
 	.guesses {
+		max-height: calc(100vh - 51.6px);
+    	overflow: auto;
 		.guess-container {
 			display: flex;
 			padding: 15px;
