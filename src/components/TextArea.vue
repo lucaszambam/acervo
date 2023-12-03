@@ -77,9 +77,6 @@ export default {
             .catch((error) => {
                 console.error('Error fetching articles:', error);
             });
-    },
-    beforeMount() {
-
     }
 }
 </script>
@@ -87,6 +84,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 $size-title: 22px;
+$size-content: 16px;
 .text-area {
     display: flex;
     flex-direction: column;
@@ -95,6 +93,10 @@ $size-title: 22px;
     .title-container {
         font-size: $size-title;
         height: $size-title;
+
+        .hidden {
+            height: $size-title !important;
+        }
     }
     .content-container, .title-container {
         display: flex;
@@ -106,8 +108,13 @@ $size-title: 22px;
             display: flex;
             .word-content, .blank-space {
                 display: block;
+                color: #e6edf3;
                 &.hidden {
-                    background-color: #a9a9a9;
+                    background-color: #282a35;
+                    border-radius: .2rem;
+                    display: flex;
+                    margin: 0.1rem 0;
+                    height: $size-content;
                 }
             }
         }
