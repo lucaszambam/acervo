@@ -1,7 +1,10 @@
 <template>
-	<div>
-        <div class="title">
-            {{ this.article.title }}
+	<div class="text-area">
+        <div class="title-container">
+            <div class="word-container" v-for="word in this.article.title.split(' ')">
+                <span class="word-content hidden" :data-hidden-word="encryptWord(word)" :style="{width: getWordWidth(word, 22) + 'px'}" :data-word-length="word.length" @click="displayWordLength"></span>
+                <span class="blank-space" :style="{width: getWordWidth(' ') + 'px'}"></span>
+            </div>
         </div>
 
         <div class="content-container">
@@ -18,7 +21,8 @@
 export default {
 	name: 'TextArea',
 	props: {
-		typedWord: String
+        titleGuess: String,
+		articleGuess: String
 	},
     data() {
         return {
@@ -82,37 +86,31 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
-.content-container {
+$size-title: 22px;
+.text-area {
     display: flex;
-    flex-wrap: wrap;
-    max-height: 130px;
-    overflow: hidden;
-
-    .word-container {
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    .title-container {
+        font-size: $size-title;
+        height: $size-title;
+    }
+    .content-container, .title-container {
         display: flex;
-        .word-content, .blank-space {
-            display: block;
-            &.hidden {
-                background-color: #a9a9a9;
+        flex-wrap: wrap;
+        max-height: 130px;
+        overflow: hidden;
+
+        .word-container {
+            display: flex;
+            .word-content, .blank-space {
+                display: block;
+                &.hidden {
+                    background-color: #a9a9a9;
+                }
             }
         }
     }
 }
-h3 {
-	margin: 40px 0 0;
-}
-
-ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-li {
-	display: inline-block;
-	margin: 0 10px;
-}
-
-a {
-	color: #42b983;
-}</style>
+</style>
